@@ -6,7 +6,7 @@ package Gleb;
 public class Main {
 
     public  static void main(String[] args) {
-        new Authorization();
+        new JMail();
     }
 
 }

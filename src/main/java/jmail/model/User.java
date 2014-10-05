@@ -7,10 +7,24 @@ import java.util.List;
  */
 public class User {
     private int id;
-    private String name;
+    private String login;
     private String pass;
     private List<Letter> letters;
     private List<User> contacts;
+
+    public User() {
+    }
+
+    public User(int id, String login, String pass) {
+        this.id = id;
+        this.login = login;
+        this.pass = pass;
+    }
+
+    public User(String login, String pass) {
+        this.login = login;
+        this.pass = pass;
+    }
 
     public int getId() {
         return id;
@@ -21,11 +35,11 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return login;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.login = name;
     }
 
     public String getPass() {

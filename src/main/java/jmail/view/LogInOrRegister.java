@@ -1,4 +1,4 @@
-package view;
+package jmail.view;
 
 import javax.swing.*;
 import java.awt.*;

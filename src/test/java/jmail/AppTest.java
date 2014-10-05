@@ -1,4 +1,4 @@
-package _GruopId;
+package jmail;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

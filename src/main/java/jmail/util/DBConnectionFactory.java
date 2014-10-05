@@ -20,7 +20,7 @@ public class DBConnectionFactory {
     static {
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream("MailSystem/src/main/resources/db.properties"));
+            properties.load(new FileInputStream("src/main/resources/db.properties"));
             HOST = properties.getProperty("db.host");
             PORT = properties.getProperty("db.port");
             USER = properties.getProperty("db.user");

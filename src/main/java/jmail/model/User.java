@@ -34,11 +34,11 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
+    public String getLogin() {
         return login;
     }
 
-    public void setName(String name) {
+    public void setLogin(String name) {
         this.login = name;
     }
 

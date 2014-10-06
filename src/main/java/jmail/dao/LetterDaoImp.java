@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,7 +38,6 @@ public class LetterDaoImp implements LetterDao{
                 }
             }
         }
-
     }
 
     @Override
@@ -69,5 +69,30 @@ public class LetterDaoImp implements LetterDao{
             }
         }
         return null;
+    }
+
+    @Override
+    public Letter findById(int id) {
+        return null;
+    }
+
+    @Override
+    public Letter findByDateRange(Date start, Date end) {
+        return null;
+    }
+
+    @Override
+    public List<Letter> findByKeyWord(String keyWord) {
+        return null;
+    }
+
+    @Override
+    public void update(Letter letter) {
+
+    }
+
+    @Override
+    public void delete(int id) {
+
     }
 }

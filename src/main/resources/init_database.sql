@@ -1,4 +1,12 @@
-CREATE DATABASE Jmail;
+-- CREATE DATABASE jmail;
+DROP SCHEMA IF EXISTS jmail;
+
+CREATE SCHEMA jmail;
+
+use jmail;
+
+DROP TABLE IF EXISTS letters;
+DROP TABLE IF EXISTS users;
 
 create table users(
 user_id int not null auto_increment,

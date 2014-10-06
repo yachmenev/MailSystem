@@ -80,4 +80,17 @@ public class Letter {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "Letter{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", from=" + from +
+                ", to=" + to +
+                ", body='" + body + '\'' +
+                ", date=" + date +
+                '}';
+    }
+
 }

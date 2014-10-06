@@ -9,9 +9,11 @@ import java.util.List;
  */
 public interface UserDao {
 
+    public User findById(int id);
+
     public User find(String login);
 
-    public void create(User user);
+    public User create(User user);
 
     public boolean update(User user);
 

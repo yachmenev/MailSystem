@@ -37,11 +37,9 @@ public class LetterDaoTest {
                 new Letter("testTitle", user1, user2, new Date(), "some text"));
     }
 
-   /*
     @After
     public void delUser(){
         userDao.delete(user1.getLogin());
         userDao.delete(user2.getLogin());
     }
-    */
 }

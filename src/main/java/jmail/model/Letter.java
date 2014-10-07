@@ -16,7 +16,7 @@ public class Letter {
     public Letter() {
     }
 
-    public Letter(int id, String title, String body, User to, User from, Date date) {
+    public Letter(int id, String title, User to, User from, Date date, String body) {
         this.id = id;
         this.title = title;
         this.body = body;
@@ -25,7 +25,7 @@ public class Letter {
         this.date = date;
     }
 
-    public Letter(String title, String body, User to, User from, Date date) {
+    public Letter(String title, User to, User from, Date date, String body) {
         this.title = title;
         this.body = body;
         this.to = to;

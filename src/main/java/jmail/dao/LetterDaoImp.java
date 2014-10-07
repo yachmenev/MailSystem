@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Admin on 05.10.14.
- */
 public class LetterDaoImp implements LetterDao{
     @Override
     public void create(Letter letter) {
@@ -23,9 +20,13 @@ public class LetterDaoImp implements LetterDao{
             connection = DBConnectionFactory.getConnection();
             statement =  connection.createStatement();
             String query = String.format(
-                    "INSERT INTO letters (title, body, to_user, from_user, send_date) VALUES " +
-                            "('%s', '%s', '%s', '%s', '%s')", letter.getTitle(), letter.getBody(), letter.getTo().getId(),
-                    letter.getFrom().getId(), new java.sql.Date(System.currentTimeMillis()).toString());
+                    "INSERT INTO letters (title, to_user, from_user, send_date, body) VALUES " +
+                            "('%s', '%s', '%s', '%s', '%s')",
+                    letter.getTitle(),
+                    letter.getTo().getId(),
+                    letter.getFrom().getId(),
+                    new java.sql.Date(System.currentTimeMillis()).toString(),
+                    letter.getBody());
             statement.execute(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,8 +53,13 @@ public class LetterDaoImp implements LetterDao{
             ResultSet resultSet = statement.executeQuery(query);
             List<Letter> letters = new ArrayList<Letter>();
             while (resultSet.next()){
-                Letter letter = new Letter(resultSet.getInt("letter_id"), resultSet.getString("title"),
-                        resultSet.getString("body"), null, null, resultSet.getDate("send_date"));
+                Letter letter = new Letter(
+                        resultSet.getInt("letter_id"),
+                        resultSet.getString("title"),
+                        null,
+                        null,
+                        resultSet.getDate("send_date"),
+                        resultSet.getString("body"));
                 letters.add(letter);
             }
             return letters;

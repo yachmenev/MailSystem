@@ -25,7 +25,7 @@ public class UserDaoImp implements UserDao {
             connection = DBConnectionFactory.getConnection();
             statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(String.format(
-                    "SELECT user_id, login, pass FROM users WHERE user_id=%d", id));
+                    "SELECT user_id, login, pass FROM users WHERE user_id='%d'", id));
             while (rs.next()){
                 user = convert(rs);
             }
@@ -56,7 +56,7 @@ public class UserDaoImp implements UserDao {
             connection = DBConnectionFactory.getConnection();
             statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(String.format(
-                    "SELECT user_id, login, pass FROM users WHERE login=%s", login));
+                    "SELECT user_id, login, pass FROM users WHERE login='%s'", login));
             user = convert(rs);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -80,9 +80,10 @@ public class UserDaoImp implements UserDao {
             connection = DBConnectionFactory.getConnection();
             statement =  connection.createStatement();
             connection.setAutoCommit(false); // begin transaction
-            statement.execute(String.format("INSERT INTO users(login, pass) VALUES ('%s', '%s')", user.getLogin(), user.getPass()));
+            statement.execute(String.format("INSERT INTO users(login, pass) VALUES ('%s', '%s')",
+                    user.getLogin(), user.getPass()));
             ResultSet rs = statement.executeQuery(String.format(
-                    "SELECT user_id, login, pass FROM users WHERE login=%s", user.getLogin()));
+                    "SELECT user_id, login, pass FROM users WHERE login='%s'", user.getLogin()));
             connection.commit(); // end transaction
             return convert(rs);
         } catch (SQLException e) {
@@ -114,6 +115,33 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public boolean delete(String login) {
+        Connection connection = null;
+        Statement statement = null;
+        try {
+            connection = DBConnectionFactory.getConnection();
+            statement =  connection.createStatement();
+            connection.setAutoCommit(false); // begin transaction
+            statement.execute(String.format("DELETE FROM users WHERE login='%s'", login));
+            connection.commit(); // end transaction
+            return true;
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+        } finally {
+            if(connection != null){
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return false;
     }
 

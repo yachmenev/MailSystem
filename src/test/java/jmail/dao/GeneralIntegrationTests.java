@@ -37,9 +37,9 @@ public class GeneralIntegrationTests {
     @Test
     public void _2_createLetter(){
         letterDao.create(
-                new Letter("testTitle1", "some text u1 - u2", user1, user2, new Date()));
+                new Letter("testTitle1", user1, user2, new Date(), "some text u1 - u2"));
         letterDao.create(
-                new Letter("testTitle2", "some text u2 - u1", user2, user1, new Date()));
+                new Letter("testTitle2", user2, user1, new Date(), "some text u2 - u1"));
     }
 
     @Test

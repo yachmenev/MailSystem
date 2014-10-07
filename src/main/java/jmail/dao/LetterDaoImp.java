@@ -50,6 +50,9 @@ public class LetterDaoImp implements LetterDao{
             statement =  connection.createStatement();
             //todo write valid query for select
             String query = null;
+            query = String.format("SELECT * FROM letters WHERE " +
+                    "to_user=(SELECT user_id FROM users WHERE login='%s') " +
+                    "OR from_user=(SELECT user_id FROM users WHERE login='%s')", login, login);
             ResultSet resultSet = statement.executeQuery(query);
             List<Letter> letters = new ArrayList<Letter>();
             while (resultSet.next()){
@@ -105,7 +108,7 @@ public class LetterDaoImp implements LetterDao{
             connection = DBConnectionFactory.getConnection();
             statement =  connection.createStatement();
             connection.setAutoCommit(false); // begin transaction
-            statement.execute(String.format("DELETE FROM letters WHERE to_user='%d'", id));
+            statement.execute(String.format("DELETE FROM letters WHERE letter_id='%d'", id));
             connection.commit(); // end transaction
         } catch (SQLException e) {
             if (connection != null) {

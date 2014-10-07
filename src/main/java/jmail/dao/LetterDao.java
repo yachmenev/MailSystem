@@ -5,9 +5,7 @@ import jmail.model.Letter;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Admin on 05.10.14.
- */
+
 public interface LetterDao {
 
     public Letter findById(int id);

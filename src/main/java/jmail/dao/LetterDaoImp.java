@@ -1,6 +1,7 @@
 package jmail.dao;
 
 import jmail.model.Letter;
+import jmail.model.User;
 import jmail.util.DBConnectionFactory;
 
 import java.sql.Connection;
@@ -82,7 +83,34 @@ public class LetterDaoImp implements LetterDao{
 
     @Override
     public Letter findById(int id) {
-        return null;
+        Connection connection = null;
+        Statement statement = null;
+        Letter letter = null;
+        try {
+            connection = DBConnectionFactory.getConnection();
+            statement =  connection.createStatement();
+            ResultSet rs = statement.executeQuery(String.format(
+                    "SELECT * FROM letters WHERE letter_id='%d'", id));
+            letter = convert(rs);
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+        } finally {
+            if(connection != null){
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return letter;
     }
 
     @Override
@@ -97,7 +125,34 @@ public class LetterDaoImp implements LetterDao{
 
     @Override
     public void update(Letter letter) {
-
+        Connection connection = null;
+        Statement statement = null;
+        try {
+            connection = DBConnectionFactory.getConnection();
+            statement =  connection.createStatement();
+            connection.setAutoCommit(false); // begin transaction
+            statement.execute(String.format(
+                    "UPDATE letters SET title='%s', body='%s' WHERE letter_id='%d'",
+                    letter.getTitle(), letter.getBody(), letter.getId()));
+            connection.commit(); // end transaction
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+        } finally {
+            if(connection != null){
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
@@ -130,4 +185,23 @@ public class LetterDaoImp implements LetterDao{
         }
 
     }
+
+    private Letter convert(ResultSet rs){
+        Letter letter = null;
+        try {
+            while (rs.next()){
+                letter = new Letter(
+                        rs.getInt("letter_id"),
+                        rs.getString("title"),
+                        new User(rs.getInt("to_user")),
+                        new User(rs.getInt("from_user")),
+                        rs.getDate("send_date"),
+                        rs.getString("body"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return letter;
+    }
+
 }

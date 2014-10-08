@@ -86,8 +86,8 @@ public class Letter {
         return "Letter{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", from=" + from +
-                ", to=" + to +
+                ", from=" + from.getLogin() +
+                ", to=" + to.getLogin() +
                 ", body='" + body + '\'' +
                 ", date=" + date +
                 '}';

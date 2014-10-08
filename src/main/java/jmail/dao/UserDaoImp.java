@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -110,6 +111,35 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public boolean update(User user) {
+        Connection connection = null;
+        Statement statement = null;
+        try {
+            connection = DBConnectionFactory.getConnection();
+            statement =  connection.createStatement();
+            connection.setAutoCommit(false); // begin transaction
+            statement.execute(String.format(
+                    "UPDATE users SET login='%s', pass='%s' WHERE user_id='%d'",
+                    user.getLogin(), user.getPass(), user.getId()));
+            connection.commit(); // end transaction
+            return true;
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+        } finally {
+            if(connection != null){
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return false;
     }
 
@@ -147,7 +177,32 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public List<User> all() {
-        return null;
+        Connection connection = null;
+        Statement statement = null;
+        User user = null;
+        List<User> list = new ArrayList<User>();
+
+        try {
+            connection = DBConnectionFactory.getConnection();
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(String.format(
+                    "SELECT * FROM users"));
+            while (rs.next()){
+                user = new User(rs.getInt("user_id"), rs.getString("login"), rs.getString("pass"));
+                list.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(connection != null){
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
     }
 
     private User convert(ResultSet rs){

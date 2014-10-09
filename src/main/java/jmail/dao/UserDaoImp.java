@@ -205,7 +205,7 @@ public class UserDaoImp implements UserDao {
         return list;
     }
 
-    private User convert(ResultSet rs){
+    public User convert(ResultSet rs){
         User user = null;
         try {
             while (rs.next()){

@@ -15,9 +15,9 @@ public class User {
     public User() {
     }
 
-    public User(int id) {
+    public User(int id, String login) {
         this.id = id;
-        this.login = "";
+        this.login = login;
         this.pass = "";
     }
 

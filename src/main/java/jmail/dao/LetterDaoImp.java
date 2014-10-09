@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.List;
 
 public class LetterDaoImp implements LetterDao{
+    User to_user = null, from_user = null, user = null;
+
     @Override
     public void create(Letter letter) {
         Connection connection = null;
@@ -49,23 +51,53 @@ public class LetterDaoImp implements LetterDao{
         try {
             connection = DBConnectionFactory.getConnection();
             statement =  connection.createStatement();
-            //todo write valid query for select
-            String query = null;
-            query = String.format("SELECT * FROM letters WHERE " +
-                    "to_user=(SELECT user_id FROM users WHERE login='%s') " +
-                    "OR from_user=(SELECT user_id FROM users WHERE login='%s')", login, login);
-            ResultSet resultSet = statement.executeQuery(query);
             List<Letter> letters = new ArrayList<Letter>();
-            while (resultSet.next()){
+            //todo write valid query for select
+            ResultSet resultSet_user = statement.executeQuery(String.format(
+                    "select users.user_id, users.login from users " +
+                            "where login='%s'", login));
+            try {
+                while (resultSet_user.next()){
+                    user = new User(resultSet_user.getInt("user_id"), resultSet_user.getString("login"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            ResultSet resultSet_to = statement.executeQuery(String.format(
+                    "SELECT *, users.user_id, users.login " +
+                    "FROM letters, users " +
+                    "WHERE to_user=(SELECT user_id FROM users WHERE login='%s') " +
+                    "AND user_id=from_user", login));
+
+            while (resultSet_to.next()){
                 Letter letter = new Letter(
-                        resultSet.getInt("letter_id"),
-                        resultSet.getString("title"),
-                        null,
-                        null,
-                        resultSet.getDate("send_date"),
-                        resultSet.getString("body"));
+                        resultSet_to.getInt("letter_id"),
+                        resultSet_to.getString("title"),
+                        user,
+                        new User(resultSet_to.getInt("user_id"), resultSet_to.getString("login")),
+                        resultSet_to.getDate("send_date"),
+                        resultSet_to.getString("body"));
                 letters.add(letter);
             }
+
+            ResultSet resultSet_from = statement.executeQuery(String.format(
+                    "SELECT *, users.user_id, users.login " +
+                            "FROM letters, users " +
+                            "WHERE from_user=(SELECT user_id FROM users WHERE login='%s') " +
+                            "AND user_id=to_user", login));
+
+            while (resultSet_from.next()){
+                Letter letter = new Letter(
+                        resultSet_from.getInt("letter_id"),
+                        resultSet_from.getString("title"),
+                        new User(resultSet_from.getInt("user_id"), resultSet_from.getString("login")),
+                        user,
+                        resultSet_from.getDate("send_date"),
+                        resultSet_from.getString("body"));
+                letters.add(letter);
+            }
+
             return letters;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -86,20 +118,29 @@ public class LetterDaoImp implements LetterDao{
         Connection connection = null;
         Statement statement = null;
         Letter letter = null;
+        UserDaoImp userDaoImp = new UserDaoImp();
         try {
             connection = DBConnectionFactory.getConnection();
             statement =  connection.createStatement();
-            ResultSet rs = statement.executeQuery(String.format(
-                    "SELECT * FROM letters WHERE letter_id='%d'", id));
-            letter = convert(rs);
-        } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
+
+            ResultSet rs2 = statement.executeQuery(String.format(
+                    "select users.user_id, users.login from letters, users " +
+                            "where letter_id='%d' and user_id=from_user", id));
+            try {
+                while (rs2.next()){
+                    from_user = new User(rs2.getInt("user_id"), rs2.getString("login"));
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
+
+            ResultSet rs = statement.executeQuery(String.format(
+                    "select letters.*, users.user_id, users.login from letters, users " +
+                            "where letter_id='%d' and user_id=to_user", id));
+            letter = convert(rs);
+
+        } catch (SQLException e) {
+
             e.printStackTrace();
         } finally {
             if(connection != null){
@@ -193,8 +234,8 @@ public class LetterDaoImp implements LetterDao{
                 letter = new Letter(
                         rs.getInt("letter_id"),
                         rs.getString("title"),
-                        new User(rs.getInt("to_user")),
-                        new User(rs.getInt("from_user")),
+                        new User(rs.getInt("user_id"), rs.getString("login")),
+                        from_user,
                         rs.getDate("send_date"),
                         rs.getString("body"));
             }

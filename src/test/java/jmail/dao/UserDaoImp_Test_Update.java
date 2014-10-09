@@ -13,10 +13,12 @@ import java.util.List;
 @FixMethodOrder(MethodSorters.DEFAULT)
 public class UserDaoImp_Test_Update {
     private static UserDao userDao = new UserDaoImp();
-    private static User user = new User(1, "Test user", "0000");
+    private static User user1 = new User(1, "User-1", "0000");
+    private static User user2 = new User(2, "User-2", "0000");
 
     @Test
     public void _updateUser(){
-        userDao.update(user);
+        userDao.update(user1);
+        userDao.update(user2);
     }
 }

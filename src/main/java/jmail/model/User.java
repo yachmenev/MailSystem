@@ -1,15 +1,29 @@
 package jmail.model;
 
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Admin on 04.10.14.
  */
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column (name = "login", unique = true, nullable = false)
     private String login;
+
+    @Column (name = "pass", nullable = false)
     private String pass;
-    private List<Letter> letters;
+
+    @OneToMany (targetEntity = Letter.class, fetch = FetchType.LAZY)
+    private List<Letter> letters = new ArrayList<Letter>();
+
+    @OneToMany (targetEntity = User.class, fetch = FetchType.LAZY)
     private List<User> contacts;
 
     public User() {

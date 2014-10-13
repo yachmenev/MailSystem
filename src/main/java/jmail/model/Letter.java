@@ -1,16 +1,34 @@
 package jmail.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by Admin on 04.10.14.
  */
+@Entity
+@Table(name = "letters")
 public class Letter {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private User from;
+
+    @OneToOne
+    @JoinColumn(name = "to_user")
     private User to;
+
+    @OneToOne
+    @JoinColumn(name = "from_user")
+    private User from;
+
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "body")
     private String body;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "send_date")
     private Date date;
 
     public Letter() {

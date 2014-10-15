@@ -1,3 +1,4 @@
+/*
 package jmail.dao;
 
 import jmail.model.Letter;
@@ -245,4 +246,4 @@ public class LetterDaoImp implements LetterDao{
         return letter;
     }
 
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 package jmail.dao;
 
 import jmail.model.User;
@@ -10,10 +11,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * Created by Admin on 05.10.14.
- */
-public class UserDaoImp implements UserDao {
+ *//*
+
+public abstract class UserDaoImp implements UserDao {
 
     @Override
     public User findById(int id) {
@@ -74,7 +77,7 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public User create(User user) {
+    public void create(User user) {
         Connection connection = null;
         Statement statement = null;
         try {
@@ -86,7 +89,6 @@ public class UserDaoImp implements UserDao {
             ResultSet rs = statement.executeQuery(String.format(
                     "SELECT user_id, login, pass FROM users WHERE login='%s'", user.getLogin()));
             connection.commit(); // end transaction
-            return convert(rs);
         } catch (SQLException e) {
             if (connection != null) {
                 try {
@@ -106,7 +108,6 @@ public class UserDaoImp implements UserDao {
             }
         }
 
-        return null;
     }
 
     @Override
@@ -217,4 +218,4 @@ public class UserDaoImp implements UserDao {
         return user;
     }
 
-}
+}*/

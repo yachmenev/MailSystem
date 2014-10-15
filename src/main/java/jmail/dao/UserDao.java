@@ -1,5 +1,6 @@
 package jmail.dao;
 
+import jmail.exceptions.UserNotFoundException;
 import jmail.model.User;
 
 import java.util.List;
@@ -13,9 +14,9 @@ public interface UserDao {
 
     public User find(String login);
 
-    public User create(User user);
+    public void create(User user);
 
-    public boolean update(User user);
+    public boolean update(int id, User user);
 
     public boolean delete(String login);
 

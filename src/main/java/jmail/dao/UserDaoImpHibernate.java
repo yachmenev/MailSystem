@@ -1,8 +1,6 @@
 package jmail.dao;
 
-import jmail.exceptions.UserNotFoundException;
 import jmail.model.User;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -17,7 +15,6 @@ public class UserDaoImpHibernate implements UserDao {
     @Override
     public User findById(int id) {
         User user = entityManager.find(User.class, id);
-
         return user;
     }
 

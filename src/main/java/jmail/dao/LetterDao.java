@@ -22,10 +22,9 @@ public interface LetterDao {
 
     public void create(Letter letter);
 
-    public void update (Letter letter);
+    public void update (int id, Letter letter);
 
     public void delete (int id);
-
 
     public List<Letter> allByUserLogin(String login);
 

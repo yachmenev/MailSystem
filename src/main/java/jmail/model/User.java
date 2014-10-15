@@ -21,10 +21,10 @@ public class User {
     private String pass;
 
     @OneToMany (targetEntity = Letter.class, fetch = FetchType.LAZY)
-    private List<Letter> sended = new ArrayList<Letter>();
+    private List<Letter> sent = new ArrayList<Letter>();
 
     @OneToMany (targetEntity = Letter.class, fetch = FetchType.LAZY)
-    private List<Letter> recieved = new ArrayList<Letter>();
+    private List<Letter> received = new ArrayList<Letter>();
 
     @OneToMany (targetEntity = User.class, fetch = FetchType.LAZY)
     private List<User> contacts;
@@ -69,20 +69,20 @@ public class User {
         return pass;
     }
 
-    public List<Letter> getSended() {
-        return sended;
+    public List<Letter> getSent() {
+        return sent;
     }
 
-    public void setSended(List<Letter> sended) {
-        this.sended = sended;
+    public void setSent(List<Letter> sent) {
+        this.sent = sent;
     }
 
-    public List<Letter> getRecieved() {
-        return recieved;
+    public List<Letter> getReceived() {
+        return received;
     }
 
-    public void setRecieved(List<Letter> recieved) {
-        this.recieved = recieved;
+    public void setReceived(List<Letter> received) {
+        this.received = received;
     }
 
     public void setPass(String pass) {

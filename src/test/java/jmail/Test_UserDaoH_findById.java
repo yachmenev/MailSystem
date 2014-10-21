@@ -2,7 +2,6 @@ package jmail;
 
 import jmail.dao.UserDao;
 import jmail.dao.UserDaoImpHibernate;
-import jmail.exceptions.UserNotFoundException;
 import jmail.model.User;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -10,7 +9,6 @@ import org.junit.Test;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * Created by Admin on 15.10.14.

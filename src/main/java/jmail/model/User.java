@@ -26,16 +26,10 @@ public class User {
     @OneToMany (targetEntity = Letter.class, fetch = FetchType.LAZY)
     private List<Letter> received = new ArrayList<Letter>();
 
-    @OneToMany (targetEntity = User.class, fetch = FetchType.LAZY)
+    @ManyToMany (targetEntity = User.class, fetch = FetchType.LAZY)
     private List<User> contacts;
 
     public User() {
-    }
-
-    public User(int id, String login) {
-        this.id = id;
-        this.login = login;
-        this.pass = "";
     }
 
     public User(int id, String login, String pass) {

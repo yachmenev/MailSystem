@@ -2,14 +2,11 @@ package jmail;
 
 import jmail.dao.UserDao;
 import jmail.dao.UserDaoImpHibernate;
-import jmail.exceptions.UserNotFoundException;
 import jmail.model.User;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import javax.management.Query;
-import java.util.List;
 import java.util.UUID;
 
 /**

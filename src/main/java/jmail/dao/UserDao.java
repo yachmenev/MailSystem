@@ -1,6 +1,5 @@
 package jmail.dao;
 
-import jmail.exceptions.UserNotFoundException;
 import jmail.model.User;
 
 import java.util.List;

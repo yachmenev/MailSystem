@@ -17,7 +17,6 @@ public class LetterDaoImpHibernate implements LetterDao {
     @Override
     public Letter findById(int id) {
         Letter letter = entityManager.find(Letter.class, id);
-
         return letter;
     }
 
@@ -59,6 +58,7 @@ public class LetterDaoImpHibernate implements LetterDao {
 
         entityManager.merge(new_letter);
         transaction.commit();
+
     }
 
     @Override
@@ -76,8 +76,9 @@ public class LetterDaoImpHibernate implements LetterDao {
         UserDao userDao = new UserDaoImpHibernate();
         User user = userDao.find(login);
         Query query = entityManager.createQuery
-                ("SELECT l FROM Letter l WHERE l.from_user= :from_user");
+                ("SELECT l FROM Letter l WHERE l.from= :from_user OR l.to= :to_user");
         query.setParameter("from_user", user.getId());
+        query.setParameter("to_user", user.getId());
         List<Letter> list = query.getResultList();
         return list;
     }

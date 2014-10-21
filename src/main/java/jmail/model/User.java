@@ -32,12 +32,6 @@ public class User {
     public User() {
     }
 
-    public User(int id, String login) {
-        this.id = id;
-        this.login = login;
-        this.pass = "";
-    }
-
     public User(int id, String login, String pass) {
         this.id = id;
         this.login = login;

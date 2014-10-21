@@ -1,25 +1,32 @@
 package jmail.dao;
 
 import jmail.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by Admin on 14.10.14.
  */
+@Repository
 public class UserDaoImpHibernate implements UserDao {
-    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my_unit");
-    private static EntityManager entityManager = entityManagerFactory.createEntityManager();
 
+    @Autowired
+    private EntityManagerFactory factory;
 
     @Override
     public User findById(int id) {
+        EntityManager entityManager = factory.createEntityManager();
         User user = entityManager.find(User.class, id);
         return user;
     }
 
     @Override
     public User find(String login) {
+        EntityManager entityManager = factory.createEntityManager();
         //Java Persistence Query Language
         try {
             Query query = entityManager.createQuery
@@ -33,15 +40,18 @@ public class UserDaoImpHibernate implements UserDao {
     }
 
     @Override
+    @Transactional
     public void create(User user) {
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
+        EntityManager entityManager = factory.createEntityManager();
+        //EntityTransaction transaction = entityManager.getTransaction();
+        //transaction.begin();
         entityManager.persist(user);
-        transaction.commit();
+        //transaction.commit();
     }
 
     @Override
     public boolean update(int id, User user) {
+        EntityManager entityManager = factory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         User new_user = entityManager.find(User.class, id);
@@ -55,6 +65,7 @@ public class UserDaoImpHibernate implements UserDao {
 
     @Override
     public boolean delete(String login) {
+        EntityManager entityManager = factory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         UserDao userDao = new UserDaoImpHibernate();
@@ -66,6 +77,7 @@ public class UserDaoImpHibernate implements UserDao {
 
     @Override
     public List<User> all() {
+        EntityManager entityManager = factory.createEntityManager();
         Query query = entityManager.createQuery
                 ("SELECT u FROM User u ");
         List<User> list = query.getResultList();

@@ -20,13 +20,13 @@ public class User {
     @Column (name = "pass", nullable = false)
     private String pass;
 
-    @OneToMany (targetEntity = Letter.class, fetch = FetchType.LAZY)
+    @OneToMany (targetEntity = Letter.class, fetch = FetchType.LAZY, mappedBy = "from")
     private List<Letter> sent = new ArrayList<Letter>();
 
-    @OneToMany (targetEntity = Letter.class, fetch = FetchType.LAZY)
+    @OneToMany (targetEntity = Letter.class, fetch = FetchType.LAZY, mappedBy = "from")
     private List<Letter> received = new ArrayList<Letter>();
 
-    @OneToMany (targetEntity = User.class, fetch = FetchType.LAZY)
+    @ManyToMany (targetEntity = User.class, fetch = FetchType.LAZY)
     private List<User> contacts;
 
     public User() {

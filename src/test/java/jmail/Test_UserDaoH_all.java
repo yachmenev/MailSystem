@@ -17,7 +17,7 @@ public class Test_UserDaoH_all {
     private static List<User> list = null;
 
     @Test
-    public void _updateLetter(){
+    public void _all(){
         list = userDao.all();
         for (User user : list)
             System.out.println(user);

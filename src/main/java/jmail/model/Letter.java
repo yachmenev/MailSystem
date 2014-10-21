@@ -13,12 +13,12 @@ public class Letter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
-    @JoinColumn(name = "to_user")
+    @ManyToOne
+    @JoinColumn(name = "to_user", referencedColumnName = "id")
     private User to;
 
-    @OneToOne
-    @JoinColumn(name = "from_user")
+    @ManyToOne
+    @JoinColumn(name = "from_user", referencedColumnName = "id")
     private User from;
 
     @Column(name = "title")

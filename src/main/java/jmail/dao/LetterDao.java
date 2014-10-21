@@ -14,11 +14,8 @@ public interface LetterDao {
 
     public Letter findByDateRange(Date start, Date end);
 
-    /*
-    * Find all letters that consist keyWord in title or in body
-    * */
+    /* Find all letters that consist keyWord in title or in body */
     public List<Letter> findByKeyWord(String keyWord);
-
 
     public void create(Letter letter);
 

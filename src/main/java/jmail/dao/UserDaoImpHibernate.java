@@ -15,7 +15,7 @@ import java.util.List;
 public class UserDaoImpHibernate implements UserDao {
 
     @Autowired
-    private EntityManagerFactory factory;
+    private EntityManagerFactory factory = null;
 
     @Override
     public User findById(int id) {
@@ -43,10 +43,10 @@ public class UserDaoImpHibernate implements UserDao {
     @Transactional
     public void create(User user) {
         EntityManager entityManager = factory.createEntityManager();
-        //EntityTransaction transaction = entityManager.getTransaction();
-        //transaction.begin();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
         entityManager.persist(user);
-        //transaction.commit();
+        transaction.commit();
     }
 
     @Override

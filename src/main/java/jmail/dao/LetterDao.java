@@ -19,7 +19,6 @@ public interface LetterDao {
     * */
     public List<Letter> findByKeyWord(String keyWord);
 
-
     public void create(Letter letter);
 
     public void update (int id, Letter letter);

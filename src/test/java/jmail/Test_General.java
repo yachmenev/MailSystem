@@ -1,8 +1,6 @@
 package jmail;
 
-import jmail.dao.LetterDao;
 import jmail.dao.UserDao;
-import jmail.dao.UserDaoImpHibernate;
 import jmail.model.User;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -14,12 +12,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.UUID;
 
-/**
- * Created by Admin on 14.10.14.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/app-context.xml"})
-public class Test_UserDaoH_create {
+public class Test_General {
 
     @Autowired
     private UserDao userDao;

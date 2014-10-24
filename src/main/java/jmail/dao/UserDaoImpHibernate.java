@@ -15,7 +15,7 @@ import java.util.List;
 public class UserDaoImpHibernate implements UserDao {
 
     @Autowired
-    private EntityManagerFactory factory;
+    private EntityManagerFactory factory = null;
 
     @Override
     public User findById(int id) {

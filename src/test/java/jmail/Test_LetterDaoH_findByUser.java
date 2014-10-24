@@ -2,9 +2,8 @@ package jmail;
 
 import jmail.dao.LetterDao;
 import jmail.dao.UserDao;
-import jmail.dao.UserDaoImpHibernate;
+import jmail.model.Letter;
 import jmail.model.User;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,28 +11,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.UUID;
+import java.util.Date;
 
-/**
- * Created by Admin on 14.10.14.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/app-context.xml"})
-public class Test_UserDaoH_create {
+public class Test_LetterDaoH_findByUser {
+    static Letter letter = null;
 
     @Autowired
-    private UserDao userDao;
-
-    private static User user = null;
+    private static LetterDao letterDao;
+    @Autowired
+    private static UserDao userDao;
 
     @BeforeClass
     public static void init() {
-        String loginUser1 = UUID.randomUUID().toString(); // for generate random value
-        user = new User(loginUser1, "0000");
+        User user_from = userDao.findById(1);
+        User user_to = userDao.findById(2);
+        String title = "Letter from User1 to User2";
+        String body = "Hello User2 from User1";
+        letter = new Letter(title, user_to, user_from, new Date(), body);
     }
     @Test
-    public void _createUser(){
-        userDao.create(user);
-        Assert.assertNotNull(userDao.find(user.getLogin()));
+    public void _createLetter(){
+        letterDao.create(letter);
     }
 }

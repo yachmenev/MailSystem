@@ -14,11 +14,11 @@ public class Letter {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "to_user", referencedColumnName = "id")
+    @JoinColumn(name = "to_id", referencedColumnName = "id")
     private User to;
 
     @ManyToOne
-    @JoinColumn(name = "from_user", referencedColumnName = "id")
+    @JoinColumn(name = "from_id", referencedColumnName = "id")
     private User from;
 
     @Column(name = "title")

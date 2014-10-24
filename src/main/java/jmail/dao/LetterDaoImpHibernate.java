@@ -2,6 +2,9 @@ package jmail.dao;
 
 import jmail.model.Letter;
 import jmail.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,12 +13,13 @@ import java.util.List;
 /**
  * Created by Admin on 14.10.14.
  */
+@Repository
 public class LetterDaoImpHibernate implements LetterDao {
-    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my_unit");
-    private static EntityManager entityManager = entityManagerFactory.createEntityManager();
-
+    @Autowired
+    private EntityManagerFactory factory = null;
     @Override
     public Letter findById(int id) {
+        EntityManager entityManager = factory.createEntityManager();
         Letter letter = entityManager.find(Letter.class, id);
         return letter;
     }
@@ -31,7 +35,9 @@ public class LetterDaoImpHibernate implements LetterDao {
     }
 
     @Override
+    @Transactional
     public void create(Letter letter) {
+        EntityManager entityManager = factory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         entityManager.persist(letter);
@@ -40,6 +46,7 @@ public class LetterDaoImpHibernate implements LetterDao {
 
     @Override
     public void update(int id, Letter letter) {
+        EntityManager entityManager = factory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         Letter new_letter = entityManager.find(Letter.class, id);
@@ -63,6 +70,7 @@ public class LetterDaoImpHibernate implements LetterDao {
 
     @Override
     public void delete(int id) {
+        EntityManager entityManager = factory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         LetterDao letterDao = new LetterDaoImpHibernate();
@@ -73,6 +81,7 @@ public class LetterDaoImpHibernate implements LetterDao {
 
     @Override
     public List<Letter> allByUserLogin(String login) {
+        EntityManager entityManager = factory.createEntityManager();
         UserDao userDao = new UserDaoImpHibernate();
         User user = userDao.find(login);
         Query query = entityManager.createQuery

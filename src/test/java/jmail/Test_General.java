@@ -19,16 +19,22 @@ public class Test_General {
     @Autowired
     private UserDao userDao;
 
-    private static User user = null;
+    private User user = null;
+    private User user_find_ID = null;
+    private User user_find_Login = null;
 
-    @BeforeClass
-    public static void init() {
-        String loginUser1 = UUID.randomUUID().toString(); // for generate random value
-        user = new User(loginUser1, "0000");
-    }
     @Test
     public void _createUser(){
+        String loginUser1 = UUID.randomUUID().toString(); // for generate random value
+        user = new User(loginUser1, "0000");
         userDao.create(user);
+        System.out.println("Create: passed");
+        user_find_ID = userDao.findById(user.getId());
+        System.out.println("Find by Id: passed");
+
         Assert.assertNotNull(userDao.find(user.getLogin()));
+        System.out.println("Find by Login: passed");
+        Assert.assertNotNull(userDao.findById(user.getId()));
+        Assert.assertEquals(user.getLogin(), user_find_ID.getLogin());
     }
 }

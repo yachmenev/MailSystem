@@ -50,20 +50,18 @@ public class UserDaoImpHibernate implements UserDao {
     }
 
     @Override
-    public boolean update(int id, User user) {
+    @Transactional
+    public boolean update(User user) {
         EntityManager entityManager = factory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        User new_user = entityManager.find(User.class, id);
-        new_user.setLogin(user.getLogin());
-        new_user.setPass(user.getPass());
-
-        entityManager.merge(new_user);
+        entityManager.merge(user);
         transaction.commit();
         return true;
     }
 
     @Override
+    @Transactional
     public boolean delete(String login) {
         EntityManager entityManager = factory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
@@ -78,9 +76,14 @@ public class UserDaoImpHibernate implements UserDao {
     @Override
     public List<User> all() {
         EntityManager entityManager = factory.createEntityManager();
-        Query query = entityManager.createQuery
-                ("SELECT u FROM User u ");
-        List<User> list = query.getResultList();
-        return list;
+        try{
+            Query query = entityManager.createQuery
+                    ("SELECT u FROM User u");
+            List<User> list = query.getResultList();
+            return list;
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }
